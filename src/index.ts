@@ -1,7 +1,10 @@
-import { Elysia } from "elysia";
+import { app } from './app';
+import { env } from './lib/env';
 
-const app = new Elysia().get("/", () => "Hello Elysia").listen(3000);
+app.listen(env.PORT, () => {
+  console.log(`🦊 Personal API server running at http://localhost:${env.PORT}`);
+  console.log(`📚 OpenAPI / Swagger documentation: http://localhost:${env.PORT}/docs`);
+  console.log(`🩺 Health check endpoint: http://localhost:${env.PORT}${env.API_PREFIX}/health`);
+});
 
-console.log(
-  `🦊 Elysia is running at ${app.server?.hostname}:${app.server?.port}`
-);
+export { app };
