@@ -21,7 +21,11 @@ function createPool(connectionString: string): pg.Pool {
   return pool;
 }
 
-function createPrismaClient(): PrismaClient {
+function getPrismaClient(): PrismaClient {
+  if (globalForPrisma.prisma) {
+    return globalForPrisma.prisma;
+  }
+
   const connectionString = env.DATABASE_URL;
   if (!connectionString) {
     throw new Error('DATABASE_URL environment variable is not set.');
@@ -33,15 +37,19 @@ function createPrismaClient(): PrismaClient {
   }
 
   const adapter = new PrismaPg(pool);
-
-  return new PrismaClient({
+  const client = new PrismaClient({
     adapter,
     log: env.isDev ? ['warn', 'error'] : ['error'],
   });
+
+  globalForPrisma.prisma = client;
+  return client;
 }
 
-export const prisma = globalForPrisma.prisma ?? createPrismaClient();
-
-if (!env.isProd) {
-  globalForPrisma.prisma = prisma;
-}
+export const prisma = new Proxy({} as PrismaClient, {
+  get(_target, prop) {
+    const client = getPrismaClient();
+    const value = Reflect.get(client, prop, client);
+    return typeof value === 'function' ? value.bind(client) : value;
+  },
+});
