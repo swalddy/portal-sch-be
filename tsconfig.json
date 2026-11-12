@@ -6,7 +6,6 @@
     "paths": {
       "@/*": ["./src/*"]
     },
-    "types": ["bun-types"],
     "strict": true,
     "skipLibCheck": true,
     "esModuleInterop": true,
