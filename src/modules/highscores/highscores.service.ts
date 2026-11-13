@@ -236,3 +236,4 @@ export class HighscoresService {
     return { gameId: record.gameId };
   }
 }
+

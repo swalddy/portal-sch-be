@@ -48,3 +48,4 @@ export type GameIdParam = Static<typeof gameIdParamSchema>;
 export type ListHighscoresQuery = Static<typeof listHighscoresQuerySchema>;
 export type CreateHighscoreInput = Static<typeof createHighscoreBodySchema>;
 export type SubmitScoreInput = Static<typeof submitScoreBodySchema>;
+

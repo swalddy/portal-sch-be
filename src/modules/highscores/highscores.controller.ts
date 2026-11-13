@@ -36,3 +36,4 @@ export class HighscoresController {
     return successResponse(deleted, 'Game highscore deleted successfully');
   }
 }
+

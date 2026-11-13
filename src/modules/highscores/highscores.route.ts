@@ -56,3 +56,4 @@ export const highscoresRoutes = new Elysia({ prefix: '/highscores' })
       security: OPENAPI_SECURITY,
     },
   });
+

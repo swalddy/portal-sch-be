@@ -206,3 +206,4 @@ describe('Highscores Module', () => {
     expect(getRes.status).toBe(404);
   });
 });
+
