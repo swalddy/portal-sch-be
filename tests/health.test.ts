@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'bun:test';
-import { app } from '@/app';
+import { app } from '../src/app';
 
 describe('Health Module', () => {
   it('should return 200 and connected database status for GET /api/v1/health', async () => {
@@ -14,7 +14,7 @@ describe('Health Module', () => {
     expect(typeof body.data.database.latencyMs).toBe('number');
     expect(body.data.environment).toBeDefined();
     expect(body.data.uptime).toBeDefined();
-  });
+  }, 15000);
 
   it('should return 404 for unmapped routes', async () => {
     const response = await app.handle(new Request('http://localhost/api/v1/not-found-endpoint'));

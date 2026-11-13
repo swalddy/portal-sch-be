@@ -1,6 +1,6 @@
-import { prisma } from '@/lib/prisma';
-import { env } from '@/lib/env';
-import { errorResponse, successResponse } from '@/utils/response.util';
+import { prisma } from '../../lib/prisma';
+import { env } from '../../lib/env';
+import { errorResponse, successResponse } from '../../utils/response.util';
 
 export class HealthController {
   public static async getHealth(set: { status?: number | string }) {

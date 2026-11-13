@@ -1,7 +1,7 @@
 import { createHash, timingSafeEqual } from 'node:crypto';
 import { createRemoteJWKSet, jwtVerify, type JWTVerifyGetKey } from 'jose';
-import { env } from '@/lib/env';
-import { UnauthorizedError } from '@/utils/errors.util';
+import { env } from './env';
+import { UnauthorizedError } from '../utils/errors.util';
 
 export interface AuthPrincipal {
   sub: string;

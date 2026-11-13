@@ -1,4 +1,4 @@
-import { successResponse } from '@/utils/response.util';
+import { successResponse } from '../../utils/response.util';
 import { NotesService } from './notes.service';
 import type { CreateNoteInput, ListNotesQuery, UpdateNoteInput } from './notes.schema';
 

@@ -1,8 +1,8 @@
 import { Elysia } from 'elysia';
-import { env } from '@/lib/env';
-import { requireAuth } from '@/middlewares/auth.middleware';
-import { OPENAPI_SECURITY } from '@/plugins/swagger.plugin';
-import { successResponse } from '@/utils/response.util';
+import { env } from '../../lib/env';
+import { requireAuth } from '../../middlewares/auth.middleware';
+import { OPENAPI_SECURITY } from '../../plugins/swagger.plugin';
+import { successResponse } from '../../utils/response.util';
 
 export const authRoutes = new Elysia({ prefix: '/auth' })
   .get(

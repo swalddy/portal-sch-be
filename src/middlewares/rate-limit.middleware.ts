@@ -1,6 +1,6 @@
 import { Elysia } from 'elysia';
-import { env } from '@/lib/env';
-import { errorResponse } from '@/utils/response.util';
+import { env } from '../lib/env';
+import { errorResponse } from '../utils/response.util';
 
 export interface RateLimitEntry {
   count: number;

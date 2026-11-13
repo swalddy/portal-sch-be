@@ -1,7 +1,7 @@
 import { Elysia } from 'elysia';
-import { Prisma } from '@/generated/prisma/client';
-import { AppError } from '@/utils/errors.util';
-import { errorResponse } from '@/utils/response.util';
+import { Prisma } from '../generated/prisma/client';
+import { AppError } from '../utils/errors.util';
+import { errorResponse } from '../utils/response.util';
 
 const PRISMA_ERROR_MAP: Record<string, { status: number; message: string }> = {
   P2002: { status: 409, message: 'A record with this unique value already exists' },

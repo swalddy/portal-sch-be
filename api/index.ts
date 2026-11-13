@@ -1,6 +1,3 @@
-import { app } from '@/app';
+import { app } from '../src/app';
 
-export default {
-  fetch: (request: Request) => app.fetch(request),
-};
-
+export default app;

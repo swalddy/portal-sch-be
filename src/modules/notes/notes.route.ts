@@ -1,6 +1,6 @@
 import { Elysia } from 'elysia';
-import { requireAuth } from '@/middlewares/auth.middleware';
-import { OPENAPI_SECURITY } from '@/plugins/swagger.plugin';
+import { requireAuth } from '../../middlewares/auth.middleware';
+import { OPENAPI_SECURITY } from '../../plugins/swagger.plugin';
 import { NotesController } from './notes.controller';
 import {
   createNoteBodySchema,

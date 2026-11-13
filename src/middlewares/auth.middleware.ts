@@ -1,6 +1,6 @@
 import { Elysia } from 'elysia';
-import { authenticateRequest, type AuthPrincipal } from '@/lib/auth';
-import { ForbiddenError } from '@/utils/errors.util';
+import { authenticateRequest, type AuthPrincipal } from '../lib/auth';
+import { ForbiddenError } from '../utils/errors.util';
 
 export const requireAuth = new Elysia({ name: 'require-auth' }).resolve(
   { as: 'scoped' },

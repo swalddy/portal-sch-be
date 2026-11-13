@@ -1,5 +1,5 @@
 import { cors } from '@elysiajs/cors';
-import { env } from '@/lib/env';
+import { env } from '../lib/env';
 
 export const corsPlugin = cors({
   origin: env.CORS_ORIGIN === '*' ? true : env.CORS_ORIGIN.split(',').map((o) => o.trim()),

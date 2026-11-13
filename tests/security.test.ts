@@ -2,12 +2,12 @@ import { randomUUID } from 'node:crypto';
 import { afterAll, beforeAll, describe, expect, it } from 'bun:test';
 import { Elysia } from 'elysia';
 import { createLocalJWKSet, exportJWK, generateKeyPair, SignJWT } from 'jose';
-import { app } from '@/app';
-import { authenticateRequest } from '@/lib/auth';
-import { env } from '@/lib/env';
-import { requireRole } from '@/middlewares/auth.middleware';
-import { errorMiddleware } from '@/middlewares/error.middleware';
-import { createRateLimitMiddleware } from '@/middlewares/rate-limit.middleware';
+import { app } from '../src/app';
+import { authenticateRequest } from '../src/lib/auth';
+import { env } from '../src/lib/env';
+import { requireRole } from '../src/middlewares/auth.middleware';
+import { errorMiddleware } from '../src/middlewares/error.middleware';
+import { createRateLimitMiddleware } from '../src/middlewares/rate-limit.middleware';
 
 describe('Security, Auth & OpenAPI', () => {
   const TEST_API_KEY = `sec-key-${randomUUID()}`;

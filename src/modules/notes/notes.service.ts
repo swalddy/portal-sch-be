@@ -1,6 +1,6 @@
-import { Prisma } from '@/generated/prisma/client';
-import { prisma } from '@/lib/prisma';
-import { BadRequestError, NotFoundError } from '@/utils/errors.util';
+import { Prisma } from '../../generated/prisma/client';
+import { prisma } from '../../lib/prisma';
+import { BadRequestError, NotFoundError } from '../../utils/errors.util';
 import type { CreateNoteInput, ListNotesQuery, UpdateNoteInput } from './notes.schema';
 
 const NOTE_SELECT = {

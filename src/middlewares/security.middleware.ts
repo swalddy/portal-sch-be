@@ -1,5 +1,5 @@
 import { Elysia } from 'elysia';
-import { env } from '@/lib/env';
+import { env } from '../lib/env';
 
 export const securityMiddleware = new Elysia({ name: 'security-middleware' }).onAfterHandle(
   { as: 'global' },
