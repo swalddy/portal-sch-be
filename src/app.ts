@@ -22,6 +22,13 @@ export const app = new Elysia()
     openApiSpec: '/docs/json',
     apiPrefix: env.API_PREFIX,
   }))
+  .get('/api', () => ({
+    name: 'Personal API Backend',
+    version: '1.0.0',
+    docs: '/docs',
+    openApiSpec: '/docs/json',
+    apiPrefix: env.API_PREFIX,
+  }))
   .group(env.API_PREFIX, (api) =>
     api
       .use(healthRoutes)
