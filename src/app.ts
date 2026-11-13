@@ -8,6 +8,7 @@ import { rateLimitMiddleware } from './middlewares/rate-limit.middleware';
 import { healthRoutes } from './modules/health/health.route';
 import { authRoutes } from './modules/auth/auth.route';
 import { notesRoutes } from './modules/notes/notes.route';
+import { highscoresRoutes } from './modules/highscores/highscores.route';
 
 export const app = new Elysia()
   .use(corsPlugin)
@@ -34,6 +35,7 @@ export const app = new Elysia()
       .use(healthRoutes)
       .use(authRoutes)
       .use(notesRoutes)
+      .use(highscoresRoutes)
   );
 
 export type App = typeof app;

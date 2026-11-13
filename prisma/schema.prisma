@@ -18,3 +18,19 @@ model Note {
   @@map("notes")
 }
 
+model Highscore {
+  id        String   @id @default(uuid())
+  gameId    String   @unique @map("game_id")
+  gameName  String   @map("game_name")
+  top1Name  String?  @map("top1_name")
+  top1Score Int?     @map("top1_score")
+  top2Name  String?  @map("top2_name")
+  top2Score Int?     @map("top2_score")
+  top3Name  String?  @map("top3_name")
+  top3Score Int?     @map("top3_score")
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@map("highscores")
+}
+

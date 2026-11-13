@@ -18,6 +18,7 @@ export const swaggerPlugin = swagger({
       { name: 'Health', description: 'System health check and database liveness endpoints' },
       { name: 'Auth', description: 'Authentication status and principal verification' },
       { name: 'Notes', description: 'Protected Note CRUD operations' },
+      { name: 'Highscores', description: 'Game highscores and automated Top 3 leaderboards' },
     ],
     components: {
       securitySchemes: {
