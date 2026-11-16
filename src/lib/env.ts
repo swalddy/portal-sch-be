@@ -31,6 +31,9 @@ export const env = {
   get NEON_AUTH_JWKS_URL(): string {
     return process.env.NEON_AUTH_JWKS_URL || '';
   },
+  get JWT_SECRET(): string {
+    return process.env.JWT_SECRET || 'notion-workspace-super-secret-jwt-key-minimum-32-bytes';
+  },
   get API_KEYS(): string[] {
     return [...parseCsv(process.env.API_KEY), ...parseCsv(process.env.API_KEYS)];
   },

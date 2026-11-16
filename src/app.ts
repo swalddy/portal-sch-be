@@ -9,6 +9,10 @@ import { healthRoutes } from './modules/health/health.route';
 import { authRoutes } from './modules/auth/auth.route';
 import { notesRoutes } from './modules/notes/notes.route';
 import { highscoresRoutes } from './modules/highscores/highscores.route';
+import { workspacesRoutes } from './modules/workspaces/workspaces.route';
+import { invitesRoutes } from './modules/invites/invites.route';
+import { documentsRoutes } from './modules/documents/documents.route';
+import { tasksRoutes } from './modules/tasks/tasks.route';
 
 export const app = new Elysia()
   .use(corsPlugin)
@@ -36,6 +40,10 @@ export const app = new Elysia()
       .use(authRoutes)
       .use(notesRoutes)
       .use(highscoresRoutes)
+      .use(workspacesRoutes)
+      .use(invitesRoutes)
+      .use(documentsRoutes)
+      .use(tasksRoutes)
   );
 
 export type App = typeof app;

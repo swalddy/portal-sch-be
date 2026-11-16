@@ -23,11 +23,13 @@
     "@prisma/adapter-pg": "7.10.1",
     "@prisma/client": "7.10.1",
     "@vercel/functions": "^3.11.1",
+    "bcryptjs": "^3.0.3",
     "elysia": "1.4.31",
     "jose": "^6.2.17",
     "pg": "^8.23.1"
   },
   "devDependencies": {
+    "@types/bcryptjs": "^2.4.6",
     "@types/pg": "^8.23.1",
     "bun-types": "latest",
     "prisma": "7.10.1",

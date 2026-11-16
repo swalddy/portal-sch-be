@@ -16,7 +16,10 @@ export const swaggerPlugin = swagger({
     },
     tags: [
       { name: 'Health', description: 'System health check and database liveness endpoints' },
-      { name: 'Auth', description: 'Authentication status and principal verification' },
+      { name: 'Auth', description: 'Authentication, registration, login, and token verification' },
+      { name: 'Workspaces', description: 'Notion-like team workspaces and member invites' },
+      { name: 'Documents', description: 'Markdown documents and nested wiki pages' },
+      { name: 'Tasks', description: 'Kanban project tasks with status and assignment' },
       { name: 'Notes', description: 'Protected Note CRUD operations' },
       { name: 'Highscores', description: 'Game highscores and automated Top 3 leaderboards' },
     ],

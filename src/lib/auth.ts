@@ -1,13 +1,32 @@
 import { createHash, timingSafeEqual } from 'node:crypto';
-import { createRemoteJWKSet, jwtVerify, type JWTVerifyGetKey } from 'jose';
+import { SignJWT, createRemoteJWKSet, jwtVerify, type JWTVerifyGetKey } from 'jose';
 import { env } from './env';
 import { UnauthorizedError } from '../utils/errors.util';
 
 export interface AuthPrincipal {
   sub: string;
   email?: string;
+  username?: string;
   role: string;
   authType: 'jwt' | 'api-key';
+}
+
+export async function signUserToken(user: {
+  id: string;
+  email: string;
+  username: string;
+}): Promise<string> {
+  const secret = new TextEncoder().encode(env.JWT_SECRET);
+  return new SignJWT({
+    sub: user.id,
+    email: user.email,
+    username: user.username,
+    role: 'user',
+  })
+    .setProtectedHeader({ alg: 'HS256' })
+    .setIssuedAt()
+    .setExpirationTime('7d')
+    .sign(secret);
 }
 
 let cachedJwksUrl: string | null = null;
@@ -56,42 +75,81 @@ export async function verifyJwt(
   token: string,
   keySetOverride?: JWTVerifyGetKey
 ): Promise<AuthPrincipal> {
-  const jwks = keySetOverride ?? getRemoteJwks();
-
-  const issuers: string[] = [];
-  if (env.NEON_AUTH_BASE_URL) {
+  if (keySetOverride) {
     try {
-      const parsed = new URL(env.NEON_AUTH_BASE_URL);
-      issuers.push(parsed.origin);
-      if (env.NEON_AUTH_BASE_URL !== parsed.origin) {
-        issuers.push(env.NEON_AUTH_BASE_URL);
+      const { payload } = await jwtVerify(token, keySetOverride);
+      if (!payload.sub) {
+        throw new UnauthorizedError('Token is missing subject claim');
       }
-    } catch {
-      issuers.push(env.NEON_AUTH_BASE_URL);
+      return {
+        sub: payload.sub,
+        email: typeof payload.email === 'string' ? payload.email : undefined,
+        username: typeof payload.username === 'string' ? payload.username : undefined,
+        role: typeof payload.role === 'string' ? payload.role : 'user',
+        authType: 'jwt',
+      };
+    } catch (error) {
+      if (error instanceof UnauthorizedError) {
+        throw error;
+      }
+      throw new UnauthorizedError('Invalid or expired bearer token');
     }
   }
 
+  // 1. Try local HS256 JWT
   try {
-    const { payload } = await jwtVerify(
-      token,
-      jwks,
-      issuers.length > 0 ? { issuer: issuers } : {}
-    );
-
+    const secret = new TextEncoder().encode(env.JWT_SECRET);
+    const { payload } = await jwtVerify(token, secret, { algorithms: ['HS256'] });
     if (!payload.sub) {
       throw new UnauthorizedError('Token is missing subject claim');
     }
-
     return {
       sub: payload.sub,
       email: typeof payload.email === 'string' ? payload.email : undefined,
+      username: typeof payload.username === 'string' ? payload.username : undefined,
       role: typeof payload.role === 'string' ? payload.role : 'user',
       authType: 'jwt',
     };
-  } catch (error) {
-    if (error instanceof UnauthorizedError) {
-      throw error;
+  } catch {
+    // 2. Try remote JWKS if configured
+    if (env.NEON_AUTH_JWKS_URL) {
+      try {
+        const jwks = getRemoteJwks();
+        const issuers: string[] = [];
+        if (env.NEON_AUTH_BASE_URL) {
+          try {
+            const parsed = new URL(env.NEON_AUTH_BASE_URL);
+            issuers.push(parsed.origin);
+            if (env.NEON_AUTH_BASE_URL !== parsed.origin) {
+              issuers.push(env.NEON_AUTH_BASE_URL);
+            }
+          } catch {
+            issuers.push(env.NEON_AUTH_BASE_URL);
+          }
+        }
+
+        const { payload } = await jwtVerify(
+          token,
+          jwks,
+          issuers.length > 0 ? { issuer: issuers } : {}
+        );
+
+        if (!payload.sub) {
+          throw new UnauthorizedError('Token is missing subject claim');
+        }
+
+        return {
+          sub: payload.sub,
+          email: typeof payload.email === 'string' ? payload.email : undefined,
+          username: typeof payload.username === 'string' ? payload.username : undefined,
+          role: typeof payload.role === 'string' ? payload.role : 'user',
+          authType: 'jwt',
+        };
+      } catch {
+        // Fall through
+      }
     }
+
     throw new UnauthorizedError('Invalid or expired bearer token');
   }
 }
